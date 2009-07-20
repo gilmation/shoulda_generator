@@ -1,0 +1,13 @@
+  <%=singular_name%>:
+    back: "<%=singular_name%>.back"
+    new: "<%=singular_name%>.new"
+    create: "<%=singular_name%>.create"
+    edit: "<%=singular_name%>.edit"
+    update: "<%=singular_name%>.update"
+    show: "<%=singular_name%>.show"
+    listing: "<%=singular_name%>.listing"
+    destroy: "<%=singular_name%>.destroy"
+    sure: "<%=singular_name%>.sure"
+<% for attribute in attributes -%>
+    <%= attribute.name %>: "<%=singular_name%>.<%=attribute.name%>"
+<% end -%>

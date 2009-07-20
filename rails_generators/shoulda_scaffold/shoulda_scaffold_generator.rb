@@ -103,13 +103,28 @@ class ShouldaScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('test/functional', controller_class_path))
       m.directory(File.join('test/unit', class_path))
 
+      #i18n - make sure these directories exist
+      m.directory(File.join('config/locales'))
+      m.directory(File.join('config/initializers'))
+
       m.directory('public/stylesheets/blueprint')
 
       for view in scaffold_views
         m.template(
-          "#{templating}/#{view}.html.#{templating}",
+          "#{templating}/#{i18n}/#{view}.html.#{templating}",
           File.join('app/views', controller_class_path, controller_file_name, "#{view}.html.#{templating}")
         )
+      end
+
+      if i18n 
+        # i18n initializer
+        m.file('i18n/i18n.rb', 'config/initializers/i18n.rb')
+
+        # i18n translation file
+        m.file('i18n/en-US.yml', 'config/locales/en-US.yml', :collision => :skip)
+        m.gsub_file('config/locales/en-US.yml', /"en-US":/mi) do | match |
+          "#{match}\n#{process_template('i18n/_en-US.yml')}"
+        end
       end
 
       # Layout and stylesheet.
@@ -140,6 +155,12 @@ class ShouldaScaffoldGenerator < Rails::Generator::NamedBase
     options[:functional_test_style] || @configuration.functional_test_style
   end
 
+  def i18n
+    if options[:i18n] 
+      :i18n
+    end
+  end
+
   protected
     # Override with your own usage banner.
     def banner
@@ -155,6 +176,7 @@ class ShouldaScaffoldGenerator < Rails::Generator::NamedBase
              "Don't generate a migration file for this model") { |v| options[:skip_migration] = v }
       opt.on("--templating [erb|haml]", "Specify the templating to use (haml by default)") { |v| options[:templating] = v }
       opt.on("--functional-test-style [basic|should_be_restful]", "Specify the style of the functional test (should_be_restful by default)") { |v| options[:functional_test_style] = v }
+      opt.on("--i18n", "Specify the style of the functional test (should_be_restful by default)") { |v| options[:i18n] = v }
       
      end
 
@@ -164,5 +186,14 @@ class ShouldaScaffoldGenerator < Rails::Generator::NamedBase
 
     def model_name
       class_name.demodulize
+    end
+
+    #process the a template file
+    def process_template(template_file)
+      source = source_path(template_file)
+      File.open(source, 'rb') do | file | 
+        b = binding
+        ERB.new(file.read, nil, '-').result(b)
+      end
     end
 end

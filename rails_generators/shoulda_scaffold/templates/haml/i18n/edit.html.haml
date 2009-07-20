@@ -1,0 +1,9 @@
+%h1= I18n.t('<%=singular_name%>.edit')
+
+- form_for(@<%= singular_name %>) do |form|
+  = render :partial => 'form', :locals => {:form => form}
+  %p= form.submit I18n.t('<%=singular_name%>.update')
+
+%p
+  = link_to I18n.t('<%=singular_name%>.show'), @<%= singular_name %>
+  = link_to I18n.t('<%=singular_name%>.back'), <%= plural_name %>_path

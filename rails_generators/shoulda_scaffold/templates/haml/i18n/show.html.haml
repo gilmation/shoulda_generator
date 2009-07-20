@@ -1,0 +1,10 @@
+%dl
+<% for attribute in attributes -%>
+  %dt= I18n.t('<%=singular_name%>.<%=attribute.name%>')
+  %dd= h @<%= singular_name %>.<%= attribute.name %>
+<% end -%>
+
+%p
+  = link_to I18n.t('<%=singular_name%>.edit'), edit_<%= singular_name %>_path(@<%= singular_name %>)
+  |
+  = link_to I18n.t('<%=singular_name%>.back'), <%= plural_name %>_path

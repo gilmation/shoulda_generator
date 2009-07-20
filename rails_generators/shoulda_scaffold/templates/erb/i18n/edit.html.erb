@@ -1,0 +1,12 @@
+<h1>Editing <%%= I18n.t('<%=singular_name%>.edit') %></h1>
+
+<%% form_for(@<%= singular_name %>) do |form| %>
+  <%%= render :partial => 'form', :locals => {:form => form} %>
+  <p><%%= form.submit I18n.t('<%=singular_name%>.update') %></p>
+<%% end %>
+
+<p>
+  <%%= link_to I18n.t('<%=singular_name%>.show'), @<%= singular_name %> %>
+  |
+  <%%= link_to I18n.t('<%=singular_name%>.back'), <%= plural_name %>_path %>
+</p>
