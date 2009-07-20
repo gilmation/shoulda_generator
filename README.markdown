@@ -30,8 +30,8 @@ The next morning, I was struck awake at 5am with the inspiration to start implem
 
  * Everything included in shoulda_model
  * A controller (sans unnecessary comments)
- * Choice of [haml](http://haml.hamptoncatlin.com/) (default) or [erb] 
-   * Specify which with the --templating option
+ * Choice of [haml](http://haml.hamptoncatlin.com/) (default) or ERB
+   * Specify which with the --templating option, accepts haml or erb
  * Choice of strings or i18n in template files
    * Defaults to strings specify i18n with --i18n
  * Simple layout styled with blueprint
